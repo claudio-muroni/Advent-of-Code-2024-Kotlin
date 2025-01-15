@@ -12,8 +12,6 @@ fun main() {
     var q3 = 0L
     var q4 = 0L
 
-    //val robotPositionList = mutableListOf<Pair<Int, Int>>()
-
     for (line in lines) {
 
         var px = line.substringAfter("p=").substringBefore(",").toInt()

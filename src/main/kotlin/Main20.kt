@@ -10,29 +10,23 @@ private operator fun Pair<Int, Int>.plus(p2: Pair<Int, Int>) : Pair<Int, Int> {
 }
 
 private val lines = Path("src/main/resources/Day20Data.txt").readLines()
-private var end = -1 to -1
 
 private val posHash = hashMapOf<Pair<Int,Int>,Int>()
 private val cheatSet2 = mutableSetOf<Pair<Int,Int>>()
-private val cheatMap2bis = mutableMapOf<Pair<Int,Int>,Int>()
-private val cache2 = hashSetOf<Pair<Int,Int>>()
 private val cache2bis = hashSetOf<Pair<Pair<Int,Int>,Int>>()
 
 fun main() {
 
     var start = -1 to -1
-
-    var standard = 0
+    var end = -1 to -1
 
     for (y in 0..<lines.size) {
         for (x in 0..<lines[0].length) {
             val c = lines[y][x]
             if (c == 'S') start = y to x
             if (c == 'E') end = y to x
-            if (c != '#') standard++
         }
     }
-    //println(standard)
 
 
     var i = 0
@@ -61,7 +55,6 @@ fun main() {
             }
         }
     }
-    //println(posHash)
 
     pos = start
     precPos = start
@@ -99,11 +92,9 @@ fun main() {
 
         // PART 2
         cheatSet2.clear()
-        //cache2.clear()
         cache2bis.clear()
         recursive(backPos, backPos, 0)
         result2 += cheatSet2.size
-        //println(pos)
     }
 
     println("Result 1: ${cheatList.size}")
@@ -112,20 +103,15 @@ fun main() {
 
 private fun recursive(pos0: Pair<Int,Int>, pos: Pair<Int,Int>, step: Int) {
 
-    if (step == 1 && lines[pos.first][pos.second] != '#') return
-
     if (step > 20 || pos.first !in 0..<lines.size || pos.second !in 0..<lines[0].length ) return
 
-    //if (pos in cache2) return else cache2.add(pos)
     if (pos to step in cache2bis) return else cache2bis.add(pos to step)
 
     if (step != 0 && lines[pos.first][pos.second] != '#') {
         val cheat = posHash.getValue(pos) - posHash.getValue(pos0)
-        if (cheat-step >= 72) {
+        if (cheat-step >= 100) {
             cheatSet2.add(pos)
-            //println("$pos0 $pos")
         }
-        return
     }
 
     val dirList = listOf(
